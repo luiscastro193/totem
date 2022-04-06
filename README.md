@@ -1,2 +1,2 @@
 # totem
-Work in progress...
+Online totem
