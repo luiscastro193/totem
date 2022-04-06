@@ -8,7 +8,7 @@ const playersForm = document.getElementById('players-form');
 const info = document.getElementById('info');
 const playerList = document.getElementById('players');
 const main = document.querySelector('main');
-const buttonContainer = document.querySelector('.button-container');
+const buttonContainer = main.querySelector('.button-container');
 
 const initialMaxTime = 2000;
 const hostChannels = new Map();
@@ -267,7 +267,7 @@ main.addEventListener('click', function() {
 	}
 }, true);
 
-document.querySelector('.button').addEventListener('click', function() {
+main.querySelector('.button').addEventListener('click', function() {
 	setPush(Date.now() - initTime);
 	buttonContainer.hidden = true;
 });
