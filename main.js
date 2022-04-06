@@ -10,7 +10,7 @@ const playerList = document.getElementById('players');
 const main = document.querySelector('main');
 const buttonContainer = main.querySelector('.button-container');
 
-const initialMaxTime = 2000;
+const initialMaxTime = 1500;
 const hostChannels = new Map();
 let myChannel;
 let myName;
