@@ -129,17 +129,9 @@ function setPush(time) {
 }
 
 function calculateWinner() {
-	let winner;
-	let minTime = Infinity;
-	
-	for (let [player, time] of pushTimes) {
-		if (time < minTime || (time == minTime && Math.random() < 0.5)) {
-			minTime = time;
-			winner = player;
-		}
-	}
-	
-	return winner;
+	let minTime = Math.min(...pushTimes.values());
+	let winners = [...pushTimes.keys()].filter(player => pushTimes.get(player) == minTime);
+	return winners[Math.floor(Math.random() * winners.length)];
 }
 
 function setWinner(player) {
@@ -153,7 +145,7 @@ function setWinner(player) {
 	initTime = null;
 	maxTime = initialMaxTime;
 	pushTimes = null;
-	alert(`${player} pushed the button`);
+	alert(`${player} has pushed the button`);
 }
 
 function registerPush(player, time) {
