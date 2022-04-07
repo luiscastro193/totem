@@ -1,2 +1,2 @@
 # totem
-Online totem
+Jungle Speed's Totem
