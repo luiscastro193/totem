@@ -254,7 +254,9 @@ async function connectToRoom() {
 	myChannel.addEventListener('close', finishGame);
 }
 
-main.addEventListener('touchstart', function() {
+const clickEvent = 'ontouchstart' in main && 'touchstart' || 'click';
+
+main.addEventListener(clickEvent, function() {
 	if (buttonContainer.hidden) {
 		root.style.setProperty('--angle', `${Math.random()}turn`);
 		buttonContainer.hidden = false;
@@ -262,7 +264,7 @@ main.addEventListener('touchstart', function() {
 	}
 }, true);
 
-main.querySelector('.button').addEventListener('touchstart', function() {
+main.querySelector('.button').addEventListener(clickEvent, function() {
 	setPush(Date.now() - initTime);
 	buttonContainer.hidden = true;
 });
