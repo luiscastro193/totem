@@ -105,9 +105,9 @@ function finishGame() {
 	playerList.innerHTML = '';
 }
 
-function initButton(fromHost = false) {
+function initButton(from) {
 	if (!initTime) {
-		if (!fromHost)
+		if (from != "host")
 			sendMessage({type: "initButton"});
 		
 		initTime = Date.now();
@@ -115,6 +115,9 @@ function initButton(fromHost = false) {
 		if (!myChannel)
 			pushTimes = new Map();
 	}
+	
+	if (from == "self" && maxTime == initialMaxTime)
+		maxTime -= 100;
 }
 
 function setPush(time) {
@@ -171,7 +174,7 @@ function handleMessage(player, data) {
 	data = JSON.parse(data);
 	
 	if (data.type == "initButton")
-		initButton();
+		initButton("player");
 	else if (data.type == "pushButton")
 		registerPush(player, data.time);
 }
@@ -180,7 +183,7 @@ function handleHostMessage(data) {
 	data = JSON.parse(data);
 	
 	if (data.type == "initButton")
-		initButton(true);
+		initButton("host");
 	else if (data.type == "maxTime")
 		maxTime = data.time;
 	else if (data.type == "winner")
@@ -255,7 +258,7 @@ main.addEventListener('click', function() {
 	if (buttonContainer.hidden) {
 		root.style.setProperty('--angle', `${Math.random()}turn`);
 		buttonContainer.hidden = false;
-		initButton();
+		initButton("self");
 	}
 }, true);
 
