@@ -254,7 +254,7 @@ async function connectToRoom() {
 	myChannel.addEventListener('close', finishGame);
 }
 
-const clickEvent = 'ontouchstart' in main && 'touchstart' || 'click';
+const clickEvent = 'ontouchstart' in main ? 'touchstart' : 'click';
 
 main.addEventListener(clickEvent, function() {
 	if (buttonContainer.hidden) {
