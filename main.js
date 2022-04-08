@@ -158,7 +158,7 @@ function registerPush(player, time) {
 		if (pushTimes.size == nPlayers)
 			return setWinner();
 		
-		if (time < maxTime - 500) {
+		if (time < maxTime - 200) {
 			maxTime = time;
 			sendMessage({type: "maxTime", time});
 		}
