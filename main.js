@@ -110,7 +110,7 @@ function initButton(from) {
 		if (from != "host")
 			sendMessage({type: "initButton"});
 		
-		initTime = performance.now();
+		initTime = Date.now();
 		
 		if (!myChannel)
 			pushTimes = new Map();
@@ -166,7 +166,7 @@ function registerPush(player, time) {
 }
 
 setInterval(function() {
-	if (initTime && !pushed && performance.now() - initTime > maxTime)
+	if (initTime && !pushed && Date.now() - initTime > maxTime)
 		setPush(maxTime + 100);
 }, 100);
 
@@ -265,7 +265,7 @@ main.addEventListener(pushEvent, function() {
 }, true);
 
 main.querySelector('.button').addEventListener(pushEvent, function() {
-	setPush(performance.now() - initTime);
+	setPush(Date.now() - initTime);
 	buttonContainer.hidden = true;
 });
 
