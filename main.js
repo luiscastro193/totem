@@ -168,7 +168,7 @@ function registerPush(player, time) {
 setInterval(function() {
 	if (initTime && !pushed && Date.now() - initTime > maxTime)
 		setPush(maxTime + 100);
-}, 100);
+}, 50);
 
 function handleMessage(player, data) {
 	data = JSON.parse(data);
