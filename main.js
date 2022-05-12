@@ -103,6 +103,11 @@ function finishGame() {
 	main.hidden = true;
 	info.textContent = "Game ended";
 	playerList.innerHTML = '';
+	
+	if (!myChannel) {
+		for (let channel of hostChannels.values())
+			channel.close();
+	}
 }
 
 function initButton(from) {
