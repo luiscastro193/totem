@@ -220,7 +220,7 @@ async function setAsHost() {
 		
 		if (oldChannel) {
 			oldChannel.close();
-			await Promise.resolve();
+			await new Promise(resolve => setTimeout(resolve, 0));
 		}
 			
 		hostChannels.set(player, channel);
