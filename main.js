@@ -30,7 +30,7 @@ let modalPromise = Promise.resolve();
 
 async function showModal(message) {
 	await modalPromise;
-	modalPromise = new Promise(resolve => {
+	return modalPromise = new Promise(resolve => {
 		dialogMsg.textContent = message;
 		dialogButton.onclick = () => {
 			dialog.close();
@@ -108,13 +108,13 @@ function updatePlayers(players) {
 	playerList.append(...players.map(toItem));
 }
 
-function startGame() {
+async function startGame() {
 	gameInitiated = true;
 	
 	if (!myChannel)
 		sendMessage({type: "startGame"});
 	
-	showModal("Game ready");
+	await showModal("Game ready");
 	main.hidden = false;
 }
 
