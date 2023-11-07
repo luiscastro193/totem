@@ -36,3 +36,12 @@
 	border-radius: 50%;
 	transform: translate(150%);
 }
+
+dialog > p {
+	margin-top: 0;
+}
+
+dialog > button {
+	display: block;
+	margin: auto;
+}
