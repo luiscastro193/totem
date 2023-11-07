@@ -29,7 +29,7 @@ let pushTimes;
 let modalPromise = Promise.resolve();
 
 async function showModal(message) {
-	return modalPromise = modalPromise.then(oldMessage => {new Promise(resolve => {
+	return modalPromise = modalPromise.then(oldMessage => {return new Promise(resolve => {
 		if (message == oldMessage) return resolve(message);
 		dialogMsg.textContent = message;
 		dialogButton.onclick = () => {
