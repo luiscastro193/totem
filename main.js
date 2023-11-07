@@ -11,6 +11,9 @@ const info = document.getElementById('info');
 const playerList = document.getElementById('players');
 const main = document.querySelector('main');
 const buttonContainer = main.querySelector('.button-container');
+const dialog = document.querySelector('dialog');
+const dialogMsg = dialog.querySelector('p');
+const dialogButton = dialog.querySelector('button');
 
 const initialMaxTime = 1500;
 const hostChannels = new Map();
@@ -22,6 +25,20 @@ let pushed = false;
 let initTime;
 let maxTime = initialMaxTime;
 let pushTimes;
+
+let modalPromise = Promise.resolve();
+
+async function showModal(message) {
+	await modalPromise;
+	modalPromise = new Promise(resolve => {
+		dialogMsg.textContent = message;
+		dialogButton.onclick = () => {
+			dialog.close();
+			resolve();
+		};
+		dialog.showModal();
+	});
+}
 
 function setName() {
 	return new Promise(resolve => {
@@ -97,7 +114,7 @@ function startGame() {
 	if (!myChannel)
 		sendMessage({type: "startGame"});
 	
-	alert("Game ready");
+	showModal("Game ready");
 	main.hidden = false;
 }
 
@@ -155,7 +172,7 @@ function setWinner(player) {
 	initTime = null;
 	maxTime = initialMaxTime;
 	pushTimes = null;
-	alert(`${player} has pushed the button`);
+	showModal(`${player} has pushed the button`);
 }
 
 function registerPush(player, time) {
