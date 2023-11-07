@@ -29,15 +29,14 @@ let pushTimes;
 let modalPromise = Promise.resolve();
 
 async function showModal(message) {
-	return modalPromise = modalPromise.then(oldMessage => {return new Promise(resolve => {
-		if (message == oldMessage) return resolve(message);
+	return modalPromise = modalPromise.then(() => new Promise(resolve => {
 		dialogMsg.textContent = message;
 		dialogButton.onclick = () => {
 			dialog.close();
-			resolve(message);
+			resolve();
 		};
 		dialog.showModal();
-	})});
+	}));
 }
 
 function setName() {
