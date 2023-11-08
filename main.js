@@ -166,12 +166,12 @@ function setWinner(player) {
 		sendMessage({type: "winner", player});
 	}
 	
+	showModal(`${player} has pushed the button`);
 	buttonContainer.hidden = true;
 	pushed = false;
 	initTime = null;
 	maxTime = initialMaxTime;
 	pushTimes = null;
-	showModal(`${player} has pushed the button`);
 }
 
 function registerPush(player, time) {
