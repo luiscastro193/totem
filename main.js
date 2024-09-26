@@ -71,7 +71,7 @@ function setNPlayers() {
 		playersForm.onsubmit = event => {
 			event.preventDefault();
 			playersForm.hidden = true;
-			nPlayers = parseInt(playersForm.elements['players'].value);
+			nPlayers = playersForm.elements['players'].valueAsNumber;
 			resolve();
 		};
 		
