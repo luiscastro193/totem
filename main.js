@@ -21,6 +21,7 @@ let myChannel;
 let myName;
 let nPlayers;
 let gameInitiated = false;
+let gameEnded = false;
 let pushed = false;
 let initTime;
 let maxTime = initialMaxTime;
@@ -114,10 +115,11 @@ async function startGame() {
 		sendMessage({type: "startGame"});
 	
 	await showModal("Game ready");
-	main.hidden = false;
+	if (!gameEnded) main.hidden = false;
 }
 
 function finishGame() {
+	gameEnded = true;
 	main.hidden = true;
 	info.textContent = "Game ended";
 	playerList.innerHTML = '';
