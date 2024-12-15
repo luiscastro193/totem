@@ -28,10 +28,8 @@
 }
 
 .button {
-	max-width: 20dvw;
-	width: 20dvh;
-	max-height: 20dvh;
-	height: 20dvw;
+	width: 20dvmin;
+	height: 20dvmin;
 	background-color: black;
 	border-radius: 50%;
 	transform: translate(150%);
