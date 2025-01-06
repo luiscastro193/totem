@@ -1,5 +1,5 @@
 "use strict";
-import {host, connect} from 'https://luiscastro193.github.io/webrtc-chat/webrtc.js';
+import {Host, connect} from 'https://luiscastro193.github.io/webrtc-chat/webrtc.js';
 
 const root = document.querySelector(':root');
 const createButton = document.getElementById('create-button');
