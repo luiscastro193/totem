@@ -1,5 +1,6 @@
 "use strict";
-import {host, connect} from 'https://luiscastro193.github.io/webrtc-chat/webrtc.js';
+//import {host, connect} from 'https://luiscastro193.github.io/webrtc-chat/webrtc.js'; // TODO
+import {Host, connect} from './webrtc.js';
 
 const root = document.querySelector(':root');
 const createButton = document.getElementById('create-button');
@@ -229,9 +230,10 @@ async function setAsHost() {
 	const code = Math.trunc(Math.random() * 10000).toString().padStart(4, '0');
 	info.textContent = `Hosting room ${code}`;
 	updatePlayers();
+	const host = new Host(code);
 	
-	while (hostChannels.size < nPlayers - 1) { try {
-		let [player, channel] = await host(code);
+	while (hostChannels.size < nPlayers - 1) {
+		let [player, channel] = await host.nextChannel(code);
 		
 		if (player == myName)
 			player += " 2";
@@ -255,8 +257,9 @@ async function setAsHost() {
 		});
 		
 		updatePlayers();
-	} catch (e) {console.error(e);}}
+	}
 	
+	host.stopListening();
 	startGame();
 }
 
