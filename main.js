@@ -6,9 +6,9 @@ const createButton = document.getElementById('create-button');
 const joinButton = document.getElementById('join-button');
 const nameForm = document.getElementById('name-form');
 const roomForm = document.getElementById('room-form');
-const playersForm = document.getElementById('players-form');
 const info = document.getElementById('info');
 const playerList = document.getElementById('players');
+const startButton = document.getElementById('start-button');
 const main = document.querySelector('main');
 const buttonContainer = main.querySelector('.button-container');
 const dialog = document.querySelector('dialog');
@@ -67,20 +67,6 @@ function getCode() {
 	});
 }
 
-function setNPlayers() {
-	return new Promise(resolve => {
-		playersForm.onsubmit = event => {
-			event.preventDefault();
-			playersForm.hidden = true;
-			nPlayers = playersForm.elements['players'].valueAsNumber;
-			resolve();
-		};
-		
-		playersForm.hidden = false;
-		playersForm.elements['players'].focus();
-	});
-}
-
 function sendMessage(data) {
 	data = JSON.stringify(data);
 	
@@ -100,7 +86,7 @@ function toItem(string) {
 
 function updatePlayers(players) {
 	if (!myChannel) {
-		players = [myName, ...hostChannels.keys(), ...Array(nPlayers - hostChannels.size - 1).fill('')];
+		players = [myName, ...hostChannels.keys()];
 		sendMessage({type: "players", players});
 	}
 	
@@ -219,20 +205,9 @@ function handleHostMessage(data) {
 		startGame();
 }
 
-async function setAsHost() {
-	createButton.disabled = true;
-	joinButton.disabled = true;
-	
-	await setNPlayers();
-	await setName();
-	
-	const code = Math.trunc(Math.random() * 10000).toString().padStart(4, '0');
-	info.textContent = `Hosting room ${code}`;
-	updatePlayers();
-	const host = new Host(code);
-	
-	while (hostChannels.size < nPlayers - 1) {
-		let [player, channel] = await host.nextChannel(code);
+async function registerPlayers(host) {
+	while (host.listening) {
+		let [player, channel] = await host.nextChannel();
 		
 		if (player == myName)
 			player += " 2";
@@ -257,9 +232,26 @@ async function setAsHost() {
 		
 		updatePlayers();
 	}
+}
+
+async function setAsHost() {
+	createButton.disabled = true;
+	joinButton.disabled = true;
+	await setName();
+	const code = Math.trunc(Math.random() * 10000).toString().padStart(4, '0');
+	info.textContent = `Hosting room ${code}`;
+	updatePlayers();
+	const host = new Host(code);
 	
-	host.stopListening();
-	startGame();
+	startButton.onclick = () => {
+		startButton.hidden = true;
+		host.stopListening();
+		nPlayers = hostChannels.size + 1;
+		startGame();
+	};
+	
+	startButton.hidden = false;
+	registerPlayers(host);
 }
 
 async function connectToRoom() {
