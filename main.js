@@ -13,7 +13,6 @@ const main = document.querySelector('main');
 const buttonContainer = main.querySelector('.button-container');
 const dialog = document.querySelector('dialog');
 const dialogMsg = dialog.querySelector('p');
-const dialogButton = dialog.querySelector('button');
 
 const initialMaxTime = 1500;
 const hostChannels = new Map();
@@ -32,10 +31,7 @@ let modalPromise = Promise.resolve();
 async function showModal(message) {
 	return modalPromise = modalPromise.then(() => new Promise(resolve => {
 		dialogMsg.textContent = message;
-		dialogButton.onclick = () => {
-			dialog.close();
-			resolve();
-		};
+		dialog.addEventListener('close', resolve);
 		dialog.showModal();
 	}));
 }
