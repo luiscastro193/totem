@@ -7,6 +7,10 @@ const joinButton = document.getElementById('join-button');
 const nameForm = document.getElementById('name-form');
 const roomForm = document.getElementById('room-form');
 const info = document.getElementById('info');
+const shareButton = document.getElementById('share-button');
+const qrButton = document.getElementById('qr-button');
+const cancelButton = document.getElementById('cancel-button');
+const restartButton = document.getElementById('restart-button');
 const playerList = document.getElementById('players');
 const startButton = document.getElementById('start-button');
 const main = document.querySelector('main');
@@ -17,6 +21,7 @@ const dialogMsg = dialog.querySelector('p');
 const initialMaxTime = 1500;
 const hostChannels = new Map();
 let myChannel;
+let code;
 let myName;
 let nPlayers;
 let gameInitiated = false;
@@ -104,6 +109,7 @@ function finishGame() {
 	gameEnded = true;
 	main.hidden = true;
 	info.textContent = "Game ended";
+	restartButton.hidden = false;
 	playerList.innerHTML = '';
 	
 	if (!myChannel) {
@@ -230,17 +236,42 @@ async function registerPlayers(host) {
 	}
 }
 
+function connectURL() {
+	return new URL('#' + code, location.href);
+}
+
+shareButton.onclick = () => {
+	let url = connectURL();
+	
+	if (navigator.share)
+		navigator.share({url});
+	else
+		navigator.clipboard.writeText(url).then(() => showModal("Link copied to clipboard"));
+};
+
+qrButton.onclick = () => {
+	let url = "https://luiscastro193.github.io/qr-generator/#" + encodeURIComponent(connectURL());
+	window.open(url);
+}
+
+cancelButton.onclick = () => location.reload();
+restartButton.onclick = () => location.reload();
+
 async function setAsHost() {
 	createButton.disabled = true;
 	joinButton.disabled = true;
 	await setName();
-	const code = Math.trunc(Math.random() * 10000).toString().padStart(4, '0');
+	code = Math.trunc(Math.random() * 10000).toString().padStart(4, '0');
 	info.textContent = `Hosting room ${code}`;
+	shareButton.hidden = false;
+	qrButton.hidden = false;
 	updatePlayers();
 	const host = new Host(code);
 	
 	startButton.onclick = () => {
 		startButton.hidden = true;
+		shareButton.hidden = true;
+		qrButton.hidden = true;
 		host.stopListening();
 		nPlayers = hostChannels.size + 1;
 		startGame();
@@ -254,9 +285,11 @@ async function connectToRoom() {
 	createButton.disabled = true;
 	joinButton.disabled = true;
 	
-	const code = await getCode();
+	if (!code) code = await getCode();
 	await setName();
 	info.textContent = `Connecting to room ${code}...`;
+	cancelButton.hidden = false;
+	
 	try {
 		myChannel = await connect(code, myName);
 	}
@@ -266,6 +299,7 @@ async function connectToRoom() {
 	}
 	myChannel.addEventListener('message', event => handleHostMessage(event.data));
 	info.textContent = `Connected to room ${code}`;
+	cancelButton.hidden = true;
 	myChannel.addEventListener('close', finishGame);
 }
 
@@ -288,3 +322,11 @@ createButton.onclick = setAsHost;
 joinButton.onclick = connectToRoom;
 createButton.disabled = false;
 joinButton.disabled = false;
+
+if (location.hash) {
+	code = location.hash.slice(1);
+	history.replaceState(null, '', ' ');
+	connectToRoom();
+}
+
+window.onhashchange = () => location.reload();
