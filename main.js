@@ -31,7 +31,7 @@ let modalPromise = Promise.resolve();
 async function showModal(message) {
 	return modalPromise = modalPromise.then(() => new Promise(resolve => {
 		dialogMsg.textContent = message;
-		dialog.addEventListener('close', resolve);
+		dialog.addEventListener('close', resolve, {once: true});
 		dialog.showModal();
 	}));
 }
