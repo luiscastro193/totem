@@ -147,7 +147,11 @@ function setPush(time) {
 function calculateWinner() {
 	let minTime = Math.min(...pushTimes.values());
 	let winners = [...pushTimes.keys()].filter(player => pushTimes.get(player) == minTime);
-	return winners[Math.trunc(Math.random() * winners.length)];
+	
+	if (winners.length > 1)
+		return winners[Math.trunc(Math.random() * winners.length)];
+	else
+		return winners[0];
 }
 
 function setWinner(player) {
