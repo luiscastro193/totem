@@ -6,6 +6,10 @@
 	font-family: InterVariable, sans-serif;
 }
 
+label > input {
+	max-width: 10em;
+}
+
 #players {
 	padding: 0px;
 	list-style-position: inside;
