@@ -21,6 +21,7 @@ label > input {
 	overflow: hidden;
 	background-color: white;
 	z-index: 100;
+	touch-action: none;
 }
 
 .button-container:not([hidden]) {
@@ -29,6 +30,7 @@ label > input {
 	justify-content: center;
 	height: 100%;
 	transform: rotate(var(--angle));
+	touch-action: none;
 }
 
 .button {
