@@ -30,7 +30,6 @@ label > input {
 	justify-content: center;
 	height: 100%;
 	transform: rotate(var(--angle));
-	touch-action: none;
 }
 
 .button {
